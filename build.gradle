@@ -1,0 +1,67 @@
+allprojects {
+	ext {
+		javaVersion = 1.7
+		libVersion = 215
+		libName = "libgdx-utils"
+		libManifestAttributes = [
+			"web": "https://github.com/mbrochh/libgdx-utils",
+			"repository": "https://github.com/mbrochh/libgdx-utils",
+			"version": libVersion
+		]
+	}
+	
+	apply plugin: "java"
+	apply plugin: "eclipse"
+	
+	sourceSets {
+		main.java.srcDirs = ["src/main"]
+		test.java.srcDirs = ["src/test"]
+	}
+	
+	sourceCompatibility = javaVersion
+	
+	jar {
+		baseName = libName
+		manifest.attributes += libManifestAttributes
+	}
+
+	javadoc.title = libName
+
+	eclipse.classpath.containers = ["org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-$javaVersion"]
+	
+	dependencies {
+		compile "com.badlogicgames.gdx:gdx:1.0-SNAPSHOT"
+		testCompile "junit:junit:4.11"
+	}
+	
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+	}
+	
+	task archiveSources(type: Jar) {
+		from sourceSets.main.java
+		baseName = libName
+		appendix = "sources"
+		destinationDir = jar.destinationDir
+		manifest.attributes += libManifestAttributes
+	}
+	
+	task archiveDocs(type: Jar, dependsOn: javadoc) {
+		from javadoc.destinationDir
+		baseName = libName
+		appendix = "javadoc"
+		destinationDir = jar.destinationDir
+		manifest.attributes += libManifestAttributes
+	}
+	
+	task archiveAll(type: Zip, dependsOn: [build, archiveSources, archiveDocs]) {
+		from archiveSources.destinationDir
+		from "LICENSE"
+		from "RELEASE NOTES"
+		destinationDir = file "build/tmp/archiveAll"
+		baseName = libName
+		doLast { archivePath.renameTo(jar.destinationDir.path + "/" + archiveName) }
+	}
+}
