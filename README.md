@@ -12,10 +12,13 @@ In order to use this:
 3. In your libGDX game project, manipulate `core/build.gradle` and add a file
    tree dependency:
 
-    #!txt
-    // ...
-    dependencies {
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile fileTree(dir: '../../../libgdx-utils/build/libs', include: '*.jar')
-    }
-    // ...
+```
+...
+
+dependencies {
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile fileTree(dir: '../../../libgdx-utils/build/libs', include: '*.jar')
+}
+
+...
+```
