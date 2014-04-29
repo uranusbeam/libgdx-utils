@@ -20,10 +20,28 @@ import com.badlogic.gdx.math.Vector3;
  * gameplay - you don't really have to press the actual button image (which is
  * tiny ayways), you just have to press anywhere above the button.
  * <p>
- * TODO: This is a work in progress. One or two action buttons still need to
- * be implemented and special functionality like long jump and double jump
- * and sprinting (pressing left or right twice). Assets should probably be
- * configurable via constructor as well.
+ * Usage:
+ * <ul>
+ *  <li>
+ *      In your `Screen` constructor, instantiate the controller and bind it to
+ *      a class attribute
+ *  </li>
+ *  <li>
+ *      In your `Screen.render()` method, call `this.controller.processInput()`
+ *  </li>
+ *  <li>
+ *      Now you can access `this.controller.isLeftPressed` and other booleans
+ *      in order to find out what inputs have been pressed.
+ *  </li>
+ *  <li>
+ *      In your `SpriteBatch` begin-end-block, call
+ *      `this.controller.render(this.game.batch)` in order to render the HUD.
+ *  </li>
+ *  <li>
+ *      In your `Screen.dispose()` method call `this.controller.dispose()`
+ *      in order to dispose the Textures that are used by this controller.
+ *  </li>
+ * </ul>
  */
 public class PlatformerInputController {
     final int width;
